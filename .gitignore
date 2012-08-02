@@ -1,1 +1,4 @@
 .project
+output.txt
+lexer-1.lisp
+lexer-1.txt
