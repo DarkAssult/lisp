@@ -1,9 +1,8 @@
 #!/usr/bin/perl -w
-use strict;
+package lexer;
 
-=for comment
-  Commented text
-=cut
+use strict;
+use warnings;
 
 sub read_text
 {
@@ -23,7 +22,6 @@ sub read_text
 	# ==========================================
 	# my $filename = "<lexer-1.lisp";
 	# my @lines=&read_text($filename);
-	
 	open FH,$_[0];
     my @temp_lines = <FH>;
  
@@ -54,7 +52,8 @@ sub match_file {
 	# print "pass" if $test_result == 0;
 	# print "fail" if $test_result == 1;
 	
-	my $compare_file_name = "<lexer-1.txt";
+	my ($answer_txt) = @_;
+	my $compare_file_name = "<".$answer_txt;
 	my $lexer_output_file_name = "<output.txt";
 	my @compare_file=&read_text($compare_file_name);
 	my @lexer_output_file=&read_text($lexer_output_file_name);
@@ -113,9 +112,10 @@ sub extract_token_from_line {
 			next;
 		}
 		else{ 
-			$temp_token = $temp_token.$character if ($character ne '');
+			$temp_token = $temp_token.$character;
 		}
 	}
+	$temp_token=&symbol_number_token($temp_token) if $temp_token ne '';
 }
 
 sub symbol_number_check {
@@ -218,7 +218,6 @@ sub tokenizer {
 		my @temp=split "", $i;
 		my $index_token=0;
 		my $last_doquote=0;
-		
 		&extract_token_from_line($index_token,$last_doquote,$i,@temp);
 	}
 }
@@ -242,8 +241,8 @@ sub lexer {
 	# ==============================================
 	# &lexer;
 	#
-	
-	my $filename = "<lexer-1.lisp";
+	my ($lisp_txt) = @_;
+	my $filename = "<".$lisp_txt;
 	my @lines=&read_text($filename);
  	&tokenizer(@lines);
 }
@@ -263,14 +262,13 @@ sub main{
 	# I'll show you how can we use this subroutine.
 	# ==============================================
 	# &main;
-	#
-	
+	my ($lisp_txt,$answer_txt) = @_;
 	open OUTFH, ">", "output.txt";
-	&lexer;
+	&lexer($lisp_txt);
 	close OUTFH;
-	my $test_result=&match_file;
+	my $test_result=&match_file($answer_txt);
 	print "pass" if $test_result == 0;
 	print "fail" if $test_result == 1;	
 }
 
-&main;
+1;

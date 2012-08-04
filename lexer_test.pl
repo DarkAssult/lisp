@@ -15,14 +15,19 @@ my %lexer_tests;
 while ( my ($key, $file) = each(%$files) ) {
 	if ($key =~ /^(lexer-\d+).lisp/) {
 		$lexer_tests{$file->{"content"}} = $files->{"$1.txt"}{"content"};
-		open OUTFH, ">", "lexer-".$i.".lisp";
+		
+		my $lisp_txt = "lexer-".$i.".lisp";
+		my $answer_txt = "lexer-".$i.".txt";
+		
+		open OUTFH, ">", $lisp_txt;
 		print OUTFH $file->{"content"};
 		close OUTFH;
 		
-		open OUTFH, ">", "lexer-".$i.".txt";
+		open OUTFH, ">", $answer_txt;
 		print OUTFH $lexer_tests{$file->{"content"}};
 		close OUTFH;
-		lexer::main;
+		
+		lexer::main($lisp_txt,$answer_txt);
 		$i++;
 	}
 }
