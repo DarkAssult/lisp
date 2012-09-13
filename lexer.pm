@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl 
 package lexer;
 
 use strict;
@@ -262,13 +262,13 @@ sub main{
 	# I'll show you how can we use this subroutine.
 	# ==============================================
 	# &main;
-	my ($lisp_txt,$answer_txt) = @_;
-	open OUTFH, ">", "output.txt";
+	my ($lisp_txt,$i) = @_;
+	open OUTFH, ">", "lexer_output-".$i.".txt";
 	&lexer($lisp_txt);
 	close OUTFH;
-	my $test_result=&match_file($answer_txt);
-	print "pass" if $test_result == 0;
-	print "fail" if $test_result == 1;	
+	#my $test_result=&match_file($answer_txt);
+	#print "pass\n" if $test_result == 0;
+	#print "fail\n" if $test_result == 1;	
 }
 
 1;
