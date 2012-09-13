@@ -22,6 +22,7 @@ sub read_text
 	# ==========================================
 	# my $filename = "<lexer-1.lisp";
 	# my @lines=&read_text($filename);
+	
 	open FH,$_[0];
     my @temp_lines = <FH>;
  
